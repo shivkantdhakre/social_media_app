@@ -7,10 +7,10 @@ export class PostsManager {
       throw new Error('Supabase not configured');
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase!.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('posts')
       .insert({
         user_id: user.id,
@@ -34,9 +34,9 @@ export class PostsManager {
       return this.getMockPosts();
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase!.auth.getUser();
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('posts')
       .select(`
         *,
@@ -62,10 +62,10 @@ export class PostsManager {
       throw new Error('Supabase not configured');
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase!.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    const { error } = await supabase
+    const { error } = await supabase!
       .from('likes')
       .insert({
         post_id: postId,
@@ -80,10 +80,10 @@ export class PostsManager {
       throw new Error('Supabase not configured');
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase!.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    const { error } = await supabase
+    const { error } = await supabase!
       .from('likes')
       .delete()
       .eq('post_id', postId)
@@ -97,10 +97,10 @@ export class PostsManager {
       throw new Error('Supabase not configured');
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase!.auth.getUser();
     if (!user) throw new Error('Not authenticated');
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('comments')
       .insert({
         post_id: postId,
@@ -122,7 +122,7 @@ export class PostsManager {
       return this.getMockComments(postId);
     }
 
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('comments')
       .select(`
         *,

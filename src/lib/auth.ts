@@ -24,10 +24,10 @@ class AuthManager {
     }
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase!.auth.getSession();
       
       if (session?.user) {
-        const { data: profile } = await supabase
+        const { data: profile } = await supabase!
           .from('users')
           .select('*')
           .eq('id', session.user.id)
@@ -52,9 +52,9 @@ class AuthManager {
       }
 
       // Listen for auth changes
-      supabase.auth.onAuthStateChange(async (event, session) => {
+      supabase!.auth.onAuthStateChange(async (event, session) => {
         if (session?.user) {
-          const { data: profile } = await supabase
+          const { data: profile } = await supabase!
             .from('users')
             .select('*')
             .eq('id', session.user.id)
@@ -113,7 +113,7 @@ class AuthManager {
     this.setState({ loading: true, error: null });
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await supabase!.auth.signUp({
         email,
         password,
         options: {
@@ -127,7 +127,7 @@ class AuthManager {
 
       // Create user profile
       if (data.user) {
-        await supabase.from('users').insert({
+        await supabase!.from('users').insert({
           id: data.user.id,
           email: data.user.email!,
           full_name: fullName
@@ -152,7 +152,7 @@ class AuthManager {
     this.setState({ loading: true, error: null });
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase!.auth.signInWithPassword({
         email,
         password
       });
@@ -176,7 +176,7 @@ class AuthManager {
     this.setState({ loading: true, error: null });
 
     try {
-      const { error } = await supabase.auth.signOut();
+      const { error } = await supabase!.auth.signOut();
       if (error) throw error;
     } catch (error) {
       this.setState({ 
